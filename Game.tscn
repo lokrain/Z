@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvkekockyqx5j"]
+
+[ext_resource type="Script" path="res://Scripts/Terrain.cs" id="1_wncvv"]
+[ext_resource type="Script" path="res://Player.cs" id="2_7ms3y"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4hhph"]
+
+[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_abp71"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nafna"]
+radius = 0.4
+height = 1.8
+
+[node name="Game" type="Node3D"]
+
+[node name="Terrain" type="StaticBody3D" parent="."]
+unique_name_in_owner = true
+physics_material_override = SubResource("PhysicsMaterial_4hhph")
+script = ExtResource("1_wncvv")
+
+[node name="tHitbox" type="CollisionShape3D" parent="Terrain"]
+shape = SubResource("HeightMapShape3D_abp71")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+collision_layer = 2
+collision_mask = 5
+floor_stop_on_slope = false
+script = ExtResource("2_7ms3y")
+
+[node name="pHitbox" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_nafna")
+
+[node name="pHead" type="Node3D" parent="Player/pHitbox"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+
+[node name="hEyes" type="Camera3D" parent="Player/pHitbox/pHead"]
+unique_name_in_owner = true
+
+[node name="hGlasses" type="RayCast3D" parent="Player/pHitbox/pHead"]
+unique_name_in_owner = true
+
+[node name="Skeleton3D" type="Skeleton3D" parent="Player"]
